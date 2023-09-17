@@ -4,7 +4,7 @@ from colorama import Back, Fore, Style, init
 init(autoreset=True)
 
 
-def get_logger():
+def _init_logger():
     class ColoredFormatter(logging.Formatter):
         def format(self, record):
             level_color = f"{record.levelname}{Style.RESET_ALL}"
@@ -21,9 +21,10 @@ def get_logger():
 
     logger = logging.getLogger("my_logger")
     logger.setLevel(logging.DEBUG)
-    console_handler = logging.StreamHandler()
 
+    console_handler = logging.StreamHandler()
     console_handler.setFormatter(ColoredFormatter())
+
     logger.addHandler(console_handler)
 
     logging.addLevelName(logging.DEBUG, f"{Fore.BLUE}DEBUG{Style.RESET_ALL}")
@@ -40,3 +41,6 @@ def get_logger():
     )
 
     return logger
+
+
+logger = _init_logger()
