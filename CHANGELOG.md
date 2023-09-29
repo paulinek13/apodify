@@ -2,6 +2,6 @@
 
 ### Added
 
-- Color palette extraction from APOD image.
-- Finding filterable colors for the palette.
-- Generating preview images for the results.
+- Extract color palettes from APOD images
+- Find filterable/closest colors for the palettes
+- Generate preview images for the results
