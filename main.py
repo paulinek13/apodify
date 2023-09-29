@@ -12,13 +12,17 @@ def main():
     for apod in apod_data:
         media_type = apod["media_type"]
 
-        # todo: usage of thumbnails for video content to ensure that color data (color palette) is included in every APOD
         # fix: see apod data for 2010-07-25
-        if media_type != "image":
+        if media_type not in ["image", "video"]:
+            logger.critical("media type not recognized; skipping this day!")
             continue
 
         date = apod["date"]
-        url = apod["url"]
+
+        if media_type == "video":
+            url = apod["thumbnail_url"]
+        else:
+            url = apod["url"]
         # hdurl = apod["hdurl"]  # todo
 
         img = fetch_apod_image(url)

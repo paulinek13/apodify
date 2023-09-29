@@ -32,7 +32,7 @@ def get_apod_data(start_date: str, end_date: str) -> List[Dict[str, Union[str, i
     logger.info(f"Retrieving APOD data ({start_date} - {end_date}) ...")
 
     base_url = "https://api.nasa.gov/planetary/apod"
-    url = f"{base_url}?api_key={os.getenv('NASA_API_KEY')}&start_date={start_date}&end_date={end_date}"
+    url = f"{base_url}?api_key={os.getenv('NASA_API_KEY')}&start_date={start_date}&end_date={end_date}&thumbs=true"
 
     response = requests.get(url)
 
