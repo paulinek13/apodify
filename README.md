@@ -4,9 +4,7 @@
 
 ## `apod-image-categorizer`
 
-The project is purpose-built to simplify the process of **filtering and organizing** Astronomy Picture of the Day (APOD) images effortlessly.
-
-It offers a set of tools and scripts to **extract, analyze, and organize color information** from APOD images, providing valuable insights into the visual elements of these astronomical images.
+The project's goal is to simplify the process of both **filtering and organizing** Astronomy Picture of the Day (APOD) content.
 
 ## Features
 
