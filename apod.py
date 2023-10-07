@@ -9,6 +9,7 @@ import requests
 from dotenv import load_dotenv
 from PIL import Image, ImageDraw
 
+from exception import CriticalError
 from logger import logger
 
 load_dotenv()
@@ -52,12 +53,14 @@ def get_apod_data(start_date: str, end_date: str) -> List[Dict[str, Union[str, i
 
         return apod_data
     else:
-        raise Exception(
+        raise CriticalError(
+            "Failed to get data from APOD API",
             {
-                "message": "Failed to get data from APOD API",
+                "url": response.url,
                 "status_code": response.status_code,
-                "data": json.loads(response) if response else None,
-            }
+                "headers": dict(response.headers),
+                "response": response.json(),
+            },
         )
 
 
