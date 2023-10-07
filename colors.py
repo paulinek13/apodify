@@ -1,6 +1,5 @@
 import colorsys
 import math
-from pathlib import Path
 from typing import List, Tuple
 
 import extcolors
@@ -122,10 +121,6 @@ def _generate_filter_colors() -> List[Tuple[int, int, int]]:
         fill="#ffffff",
     )
 
-    # todo: optionally
-    Path(f"./.output/filter_colors_preview.png").parent.mkdir(
-        exist_ok=True, parents=True
-    )
     image.save("./.output/filter_colors_preview.png")
 
     rgb_colors = [hex_to_rgb(hex_color) for hex_color in hex_colors]
@@ -151,7 +146,7 @@ def extract_colors(img: Image.Image) -> List[Tuple[int, int, int]]:
     return [(r, g, b) for (r, g, b), _ in colors[0]]
 
 
-_FILTER_COLORS = _generate_filter_colors()
+_FILTER_COLORS = None
 
 
 def _find_closest_color(
@@ -198,6 +193,10 @@ def find_closest_colors(color_palette: List[Tuple[int, int, int]]) -> List[str]:
     Returns:
         List[str]: A list of hexadecimal color codes representing the closest colors.
     """
+
+    global _FILTER_COLORS
+    if _FILTER_COLORS is None:
+        _FILTER_COLORS = _generate_filter_colors()
 
     filterable_colors = []
     for color in color_palette:

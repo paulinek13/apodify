@@ -48,9 +48,7 @@ def get_apod_data(start_date: str, end_date: str) -> List[Dict[str, Union[str, i
 
         # todo: add option to disable it
         logger.info("Writing response json to '/.temp/apod_data.json' ...")
-        outfile = Path(f"./.temp/apod_data.json")
-        outfile.parent.mkdir(exist_ok=True, parents=True)
-        outfile.write_text(json.dumps(apod_data, indent=4))
+        Path(f"./.temp/apod_data.json").write_text(json.dumps(apod_data, indent=4))
 
         return apod_data
     else:
@@ -156,5 +154,4 @@ def generate_combined_image(
             outline=None,
         )
 
-    Path(f"./.output/images/{date}-2.jpg").parent.mkdir(exist_ok=True, parents=True)
-    new_image.save(f"./.output/images/{date}-2.jpg", "JPEG")
+    new_image.save(f"./.output/images/{date}.jpg", "JPEG")

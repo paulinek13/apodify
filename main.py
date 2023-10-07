@@ -2,6 +2,7 @@ import config
 from apod import *
 from colors import extract_colors, find_closest_colors, rgb_to_hex
 from logger import logger
+import os
 
 
 def main():
@@ -43,7 +44,12 @@ def main():
 
 
 if __name__ == "__main__":
+    os.makedirs("./.output/images/", exist_ok=True)
+    os.makedirs("./.output/data/", exist_ok=True)
+    os.makedirs("./.temp/", exist_ok=True)
+
     main()
+
 # try:
 # except Exception as e:
 #     try:
