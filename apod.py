@@ -9,9 +9,8 @@ import requests
 from dotenv import load_dotenv
 from PIL import Image, ImageDraw
 
-from exception import CriticalError
 from logger import logger
-from utils import TODAY, is_date_within_range
+from utils import TODAY, CriticalError, is_date_within_range
 
 load_dotenv()
 

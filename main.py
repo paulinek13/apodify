@@ -4,8 +4,8 @@ import traceback
 import config
 from apod import *
 from colors import extract_colors, find_closest_colors, rgb_to_hex
-from exception import CriticalError
 from logger import logger
+from utils import CriticalError
 
 
 def main():
