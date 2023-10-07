@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw
 
 from exception import CriticalError
 from logger import logger
+from utils import TODAY, is_date_within_range
 
 load_dotenv()
 
@@ -27,8 +28,15 @@ def get_apod_data(start_date: str, end_date: str) -> List[Dict[str, Union[str, i
         list: A list of dictionaries, where each dictionary represents APOD data for a specific date.
     """
 
-    # todo: start_date >= "1995-06-16" (the date when APOD started)
-    # todo: end_date <= today
+    if not is_date_within_range(start_date, "1995-06-16", TODAY):
+        raise CriticalError(
+            "'START_DATE' cannot be later than the present day or earlier than '1995-06-16' (the day APOD started)"
+        )
+
+    if not is_date_within_range(end_date, "1995-06-16", TODAY):
+        raise CriticalError(
+            "'END_DATE' cannot be later than the present day or earlier than '1995-06-16' (the day APOD started)"
+        )
 
     logger.info(f"Retrieving APOD data ({start_date} - {end_date}) ...")
 
