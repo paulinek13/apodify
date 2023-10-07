@@ -1,17 +1,16 @@
-# todo
+import yaml
 
-DEBUG_MODE = True
+import utils
 
-START_DATE = "2022-12-17"
-END_DATE = "2022-12-31"
 
-# SAVE_FILTERABLE_COLORS = True
-# SAVE_URL = True
-# SAVE_MEDIA_TYPE = True
+class get:
+    start_date = utils.TODAY
+    end_date = utils.TODAY
 
-# CREATE_COMBINED_IMAGES = True
-# CREATE_FILTERS_PREVIEW = True
 
-# USE_HDURL = False
+def init():
+    with open("config.yml", "r") as file:
+        data = yaml.safe_load(file)
 
-# CLEAN_TEMP
+        get.start_date = data["start_date"]
+        get.end_date = data["end_date"]

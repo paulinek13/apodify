@@ -9,7 +9,7 @@ from utils import CriticalError
 
 
 def main():
-    apod_data = get_apod_data(config.START_DATE, config.END_DATE)
+    apod_data = get_apod_data(config.get.start_date, config.get.end_date)
     logger.info("Generating and categorizing color palettes for the data ...")
     # todo: progress bar
 
@@ -48,6 +48,8 @@ def main():
 
 if __name__ == "__main__":
     try:
+        config.init()
+
         os.makedirs("./.output/images/", exist_ok=True)
         os.makedirs("./.output/data/", exist_ok=True)
         os.makedirs("./.temp/", exist_ok=True)
