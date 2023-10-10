@@ -9,6 +9,7 @@ import requests
 from dotenv import load_dotenv
 from PIL import Image, ImageDraw
 
+import config
 from logger import logger
 from utils import TODAY, CriticalError, is_date_within_range
 
@@ -102,10 +103,17 @@ def save_apod_data(
 
     dict_data = {
         "date": date,
-        "colors": color_palette,
-        "filterable": filterable_colors
-        # "url": url,
     }
+
+    if config.get.save_url is True:
+        dict_data["url"] = url
+    if config.get.save_color_palette is True:
+        dict_data["colors"] = color_palette
+    if config.get.save_filterable_colors is True:
+        dict_data["filterable"] = filterable_colors
+
+    # todo: save media type
+
     final_data_json = json.dumps(dict_data, indent=4)
     date_obj = datetime.strptime(date, "%Y-%m-%d")
     outfile = Path(
@@ -127,6 +135,11 @@ def generate_combined_image(
         color_palette (List[str]): The color palette associated with the APOD image.
         filterable_colors (List[str]): The filterable colors corresponding to the color palette.
     """
+
+    if config.get.generate_combined_image is False:
+        return
+
+    # todo: improve this implementation
 
     img_width, img_height = img.size
     new_image = Image.new(
@@ -154,14 +167,15 @@ def generate_combined_image(
     pos_x = img_width + 10 + 100 + 10
     pos_y = 10
 
-    for i, color in enumerate(filterable_colors):
-        draw.rectangle(
-            [
-                (pos_x, pos_y + i * rec_height),
-                (pos_x + 100, pos_y + (i + 1) * rec_height),
-            ],
-            fill=color,
-            outline=None,
-        )
+    if config.get.save_filterable_colors is True:
+        for i, color in enumerate(filterable_colors):
+            draw.rectangle(
+                [
+                    (pos_x, pos_y + i * rec_height),
+                    (pos_x + 100, pos_y + (i + 1) * rec_height),
+                ],
+                fill=color,
+                outline=None,
+            )
 
     new_image.save(f"./.output/images/{date}.jpg", "JPEG")

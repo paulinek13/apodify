@@ -31,7 +31,11 @@ def main():
 
         img = fetch_apod_image(url)
         color_palette = extract_colors(img)
-        filterable_colors = find_closest_colors(color_palette)
+        filterable_colors = (
+            find_closest_colors(color_palette)
+            if config.get.save_filterable_colors is True
+            else None
+        )
 
         hex_color_palette = []
         for color in color_palette:
