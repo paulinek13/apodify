@@ -20,6 +20,9 @@ class get:
 
     generate_combined_image = True
 
+    extcolors_tolerance = 32
+    extcolors_limit = 4
+
 
 def init():
     """
@@ -38,3 +41,6 @@ def init():
         get.save_filterable_colors = data["save_filterable_colors"]
 
         get.generate_combined_image = data["generate_combined_image"]
+
+        get.extcolors_tolerance = data["extcolors_tolerance"]
+        get.extcolors_limit = data["extcolors_limit"]

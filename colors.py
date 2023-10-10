@@ -5,10 +5,8 @@ from typing import List, Tuple
 import extcolors
 from PIL import Image, ImageDraw
 
+import config
 from logger import logger
-
-EXTCOLORS_TOLERANCE = 32
-EXTCOLORS_LIMIT = 4
 
 
 def rgb_to_hex(rgb: Tuple[int, int, int]) -> str:
@@ -142,7 +140,9 @@ def extract_colors(img: Image.Image) -> List[Tuple[int, int, int]]:
         The `limit` parameter determines the maximum number of colors to be extracted from the image.
     """
 
-    colors = extcolors.extract_from_image(img, EXTCOLORS_TOLERANCE, EXTCOLORS_LIMIT)
+    colors = extcolors.extract_from_image(
+        img, config.get.extcolors_tolerance, config.get.extcolors_limit
+    )
     return [(r, g, b) for (r, g, b), _ in colors[0]]
 
 

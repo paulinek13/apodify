@@ -7,3 +7,6 @@ save_color_palette: True
 save_filterable_colors: True
 
 generate_combined_image: True
+
+extcolors_tolerance: 32
+extcolors_limit: 4
