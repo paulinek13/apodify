@@ -36,3 +36,5 @@ def init():
         get.save_media_type = data["save_media_type"]
         get.save_color_palette = data["save_color_palette"]
         get.save_filterable_colors = data["save_filterable_colors"]
+
+        get.generate_combined_image = data["generate_combined_image"]

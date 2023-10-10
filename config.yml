@@ -5,3 +5,5 @@ save_url: True
 save_media_type: True
 save_color_palette: True
 save_filterable_colors: True
+
+generate_combined_image: True
