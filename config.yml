@@ -1,6 +1,8 @@
 start_date: "2023-01-01"
 end_date: "2023-01-03"
 
+use_hdurl: False
+
 save_url: True
 save_media_type: True
 save_color_palette: True

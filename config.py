@@ -13,6 +13,8 @@ class get:
     start_date = utils.TODAY
     end_date = utils.TODAY
 
+    use_hdurl = False
+
     save_url = True
     save_media_type = True
     save_color_palette = True
@@ -34,6 +36,8 @@ def init():
 
         get.start_date = data["start_date"]
         get.end_date = data["end_date"]
+
+        get.use_hdurl = data["use_hdurl"]
 
         get.save_url = data["save_url"]
         get.save_media_type = data["save_media_type"]

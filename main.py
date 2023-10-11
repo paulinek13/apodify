@@ -25,9 +25,10 @@ def main():
 
         if media_type == "video":
             url = apod["thumbnail_url"]
+        elif config.get.use_hdurl is True and apod["hdurl"] is not None:
+            url = apod["hdurl"]
         else:
             url = apod["url"]
-        # hdurl = apod["hdurl"]  # todo
 
         img = fetch_apod_image(url)
         color_palette = extract_colors(img)
