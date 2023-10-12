@@ -30,21 +30,33 @@ def init():
     """
     Load 'config.yml' file and update the configuration settings.
     """
+
     with open("config.yml", "r") as file:
         data = yaml.safe_load(file)
         # todo validate the input
 
-        get.start_date = data["start_date"]
-        get.end_date = data["end_date"]
+        # todo: improve the code below
 
-        get.use_hdurl = data["use_hdurl"]
+        if "start_date" in data:
+            get.start_date = data["start_date"]
+        if "end_date" in data:
+            get.end_date = data["end_date"]
 
-        get.save_url = data["save_url"]
-        get.save_media_type = data["save_media_type"]
-        get.save_color_palette = data["save_color_palette"]
-        get.save_filterable_colors = data["save_filterable_colors"]
+        if "use_hdurl" in data:
+            get.use_hdurl = data["use_hdurl"]
 
-        get.generate_combined_image = data["generate_combined_image"]
+        if "save_url" in data:
+            get.save_url = data["save_url"]
+        if "save_media_type" in data:
+            get.save_media_type = data["save_media_type"]
+        if "save_color_palette" in data:
+            get.save_color_palette = data["save_color_palette"]
+        if "save_filterable_colors" in data:
+            get.save_filterable_colors = data["save_filterable_colors"]
 
-        get.extcolors_tolerance = data["extcolors_tolerance"]
-        get.extcolors_limit = data["extcolors_limit"]
+        if "generate_combined_image" in data:
+            get.generate_combined_image = data["generate_combined_image"]
+        if "extcolors_tolerance" in data:
+            get.extcolors_tolerance = data["extcolors_tolerance"]
+        if "extcolors_limit" in data:
+            get.extcolors_limit = data["extcolors_limit"]
