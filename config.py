@@ -17,6 +17,7 @@ class get:
 
     save_url = True
     save_media_type = True
+    save_content_type = False
     save_color_palette = True
     save_filterable_colors = True
 
@@ -49,6 +50,8 @@ def init():
             get.save_url = data["save_url"]
         if "save_media_type" in data:
             get.save_media_type = data["save_media_type"]
+        if "save_content_type" in data:
+            get.save_content_type = data["save_content_type"]
         if "save_color_palette" in data:
             get.save_color_palette = data["save_color_palette"]
         if "save_filterable_colors" in data:

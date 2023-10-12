@@ -72,24 +72,31 @@ def get_apod_data(start_date: str, end_date: str) -> List[Dict[str, Union[str, i
         )
 
 
-def fetch_apod_image(url: str) -> Image.Image:
+def fetch_apod_image(url: str) -> tuple[Image.Image, str]:
     """
-    Fetches an APOD image from a given URL, saves it locally (./.temp/apod_image), and returns a Pillow's Image object.
+    Fetches an APOD image from a given URL and saves it locally (./.temp/apod_image).
 
     Args:
         url (str): The URL of the image to fetch.
 
     Returns:
-        PIL.Image.Image: A Pillow's Image object representing the fetched image.
+        tuple[Image.Image, str]: A tuple containing two elements:
+            - A Pillow's Image object representing the fetched image.
+            - A string representing the content type of the fetched image.
     """
 
-    urllib.request.urlretrieve(url, "./.temp/apod_image")
+    res = urllib.request.urlretrieve(url, "./.temp/apod_image")
     img = Image.open("./.temp/apod_image")
-    return img
+    return img, res[1].get_content_type()
 
 
 def save_apod_data(
-    date: str, color_palette: List[str], filterable_colors: List[str], url: str
+    date: str,
+    color_palette: List[str],
+    filterable_colors: List[str],
+    url: str,
+    media_type: str,
+    content_type: str,
 ) -> None:
     """
     Saves APOD data (for a single day) to a JSON file.
@@ -99,6 +106,8 @@ def save_apod_data(
         color_palette (List[str]): A color palette associated with the APOD.
         filterable_colors (List[str]): A filterable color palette based on the color palette.
         url (str): The URL of the APOD image on which the palettes are based.
+        media_type (str): The media type returned by the APOD API.
+        content_type (str): The content type of an image.
     """
 
     dict_data = {
@@ -107,12 +116,14 @@ def save_apod_data(
 
     if config.get.save_url is True:
         dict_data["url"] = url
+    if config.get.save_media_type is True:
+        dict_data["media_type"] = media_type
+    if config.get.save_content_type is True:
+        dict_data["content_type"] = content_type
     if config.get.save_color_palette is True:
         dict_data["colors"] = color_palette
     if config.get.save_filterable_colors is True:
         dict_data["filterable"] = filterable_colors
-
-    # todo: save media type
 
     final_data_json = json.dumps(dict_data, indent=4)
     date_obj = datetime.strptime(date, "%Y-%m-%d")

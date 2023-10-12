@@ -30,7 +30,7 @@ def main():
         else:
             url = apod["url"]
 
-        img = fetch_apod_image(url)
+        img, content_type = fetch_apod_image(url)
         color_palette = extract_colors(img)
         filterable_colors = (
             find_closest_colors(color_palette)
@@ -44,7 +44,9 @@ def main():
 
         logger.debug(f"{date}")
 
-        save_apod_data(date, hex_color_palette, filterable_colors, url)
+        save_apod_data(
+            date, hex_color_palette, filterable_colors, url, media_type, content_type
+        )
         generate_combined_image(img, date, hex_color_palette, filterable_colors)
 
     # todo: "finished in": measure time (for individual images as well)
