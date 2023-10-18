@@ -28,6 +28,15 @@ def get_apod_data(start_date: str, end_date: str) -> List[Dict[str, Union[str, i
         list: A list of dictionaries, where each dictionary represents APOD data for a specific date.
     """
 
+    if config.get.use_temp_apod_data:
+        if os.path.isfile(".temp/apod_data.json") is True:
+            with open(".temp/apod_data.json", encoding="utf-8") as file:
+                data = json.loads(file.read())
+                logger.info("APOD data loaded from the temporary file.")
+                return data
+        else:
+            logger.warning("The temp file with APOD items was not found!")
+
     if not is_date_within_range(start_date, "1995-06-16", TODAY):
         raise CriticalError(
             "'START_DATE' cannot be later than the present day or earlier than '1995-06-16' (the day APOD started)"

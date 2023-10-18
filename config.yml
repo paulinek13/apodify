@@ -1,6 +1,7 @@
 start_date: "2023-01-01"
 end_date: "2023-01-03"
 
+use_temp_apod_data: False
 use_hdurl: False
 
 save_url: True

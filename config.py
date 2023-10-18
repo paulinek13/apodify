@@ -13,6 +13,7 @@ class get:
     start_date = utils.TODAY
     end_date = utils.TODAY
 
+    use_temp_apod_data = False
     use_hdurl = False
 
     save_url = True
@@ -43,6 +44,8 @@ def init():
         if "end_date" in data:
             get.end_date = data["end_date"]
 
+        if "use_temp_apod_data" in data:
+            get.use_temp_apod_data = data["use_temp_apod_data"]
         if "use_hdurl" in data:
             get.use_hdurl = data["use_hdurl"]
 
