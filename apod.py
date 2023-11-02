@@ -1,22 +1,23 @@
+import config
+import datetime
+import dotenv
 import json
 import os
-import urllib.request
-from datetime import datetime
-from pathlib import Path
-from typing import Dict, List, Union
-
+import pathlib
 import requests
-from dotenv import load_dotenv
+import typing
+import urllib.request
+import utils
+
 from PIL import Image, ImageDraw
-
-import config
 from logger import logger
-from utils import TODAY, CriticalError, is_date_within_range
 
-load_dotenv()
+dotenv.load_dotenv()
 
 
-def get_apod_data(start_date: str, end_date: str) -> List[Dict[str, Union[str, int]]]:
+def get_apod_data(
+    start_date: str, end_date: str
+) -> typing.List[typing.Dict[str, typing.Union[str, int]]]:
     """
     Retrieves Astronomy Picture of the Day (APOD) data for a specified date range.
 
@@ -37,13 +38,13 @@ def get_apod_data(start_date: str, end_date: str) -> List[Dict[str, Union[str, i
         else:
             logger.warning("The temp file with APOD items was not found!")
 
-    if not is_date_within_range(start_date, "1995-06-16", TODAY):
-        raise CriticalError(
+    if not utils.is_date_within_range(start_date, "1995-06-16", utils.TODAY):
+        raise utils.CriticalError(
             "'START_DATE' cannot be later than the present day or earlier than '1995-06-16' (the day APOD started)"
         )
 
-    if not is_date_within_range(end_date, "1995-06-16", TODAY):
-        raise CriticalError(
+    if not utils.is_date_within_range(end_date, "1995-06-16", utils.TODAY):
+        raise utils.CriticalError(
             "'END_DATE' cannot be later than the present day or earlier than '1995-06-16' (the day APOD started)"
         )
 
@@ -66,11 +67,13 @@ def get_apod_data(start_date: str, end_date: str) -> List[Dict[str, Union[str, i
 
         # todo: add option to disable it
         logger.info("Writing response json to '/.temp/apod_data.json' ...")
-        Path(f"./.temp/apod_data.json").write_text(json.dumps(apod_data, indent=4))
+        pathlib.Path(f"./.temp/apod_data.json").write_text(
+            json.dumps(apod_data, indent=4)
+        )
 
         return apod_data
     else:
-        raise CriticalError(
+        raise utils.CriticalError(
             "Failed to get data from APOD API",
             {
                 "url": response.url,
@@ -101,8 +104,8 @@ def fetch_apod_image(url: str) -> tuple[Image.Image, str]:
 
 def save_apod_data(
     date: str,
-    color_palette: List[str],
-    filterable_colors: List[str],
+    color_palette: typing.List[str],
+    filterable_colors: typing.List[str],
     url: str,
     media_type: str,
     content_type: str,
@@ -135,8 +138,8 @@ def save_apod_data(
         dict_data["filterable"] = filterable_colors
 
     final_data_json = json.dumps(dict_data, indent=4)
-    date_obj = datetime.strptime(date, "%Y-%m-%d")
-    outfile = Path(
+    date_obj = datetime.datetime.strptime(date, "%Y-%m-%d")
+    outfile = pathlib.Path(
         f"./.output/data/{date_obj.year}/{str(date_obj.month).zfill(2)}/{str(date_obj.day).zfill(2)}.json"
     )
     outfile.parent.mkdir(exist_ok=True, parents=True)
@@ -144,7 +147,10 @@ def save_apod_data(
 
 
 def generate_combined_image(
-    img: Image.Image, date: str, color_palette: List[str], filterable_colors: List[str]
+    img: Image.Image,
+    date: str,
+    color_palette: typing.List[str],
+    filterable_colors: typing.List[str],
 ) -> None:
     """
     Generates a combined image from an APOD image, its color palette, and filterable colors.

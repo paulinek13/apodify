@@ -1,15 +1,14 @@
 import colorsys
-import math
-from typing import List, Tuple
-
-import extcolors
-from PIL import Image, ImageDraw
-
 import config
+import extcolors
+import math
+import typing
+
+from PIL import Image, ImageDraw
 from logger import logger
 
 
-def rgb_to_hex(rgb: Tuple[int, int, int]) -> str:
+def rgb_to_hex(rgb: typing.Tuple[int, int, int]) -> str:
     """
     Converts an RGB color represented as a tuple, e.g.: (232, 166, 0), to its hexadecimal representation.
 
@@ -23,7 +22,7 @@ def rgb_to_hex(rgb: Tuple[int, int, int]) -> str:
     return "#{:02X}{:02X}{:02X}".format(rgb[0], rgb[1], rgb[2])
 
 
-def hex_to_rgb(hex_color: str) -> Tuple[int, int, int]:
+def hex_to_rgb(hex_color: str) -> typing.Tuple[int, int, int]:
     """
     Converts a hexadecimal color code to an RGB tuple.
 
@@ -43,7 +42,7 @@ def hex_to_rgb(hex_color: str) -> Tuple[int, int, int]:
     return (r, g, b)
 
 
-def _generate_filter_colors() -> List[Tuple[int, int, int]]:
+def _generate_filter_colors() -> typing.List[typing.Tuple[int, int, int]]:
     """
     Generates a list of visually distinct colors for filtering purposes.
     Also a preview image is generated.
@@ -125,7 +124,7 @@ def _generate_filter_colors() -> List[Tuple[int, int, int]]:
     return rgb_colors
 
 
-def extract_colors(img: Image.Image) -> List[Tuple[int, int, int]]:
+def extract_colors(img: Image.Image) -> typing.List[typing.Tuple[int, int, int]]:
     """
     Extracts main/distinct/prominent colors (basically - a color palette) from an image and returns them as RGB tuples.
 
@@ -150,8 +149,9 @@ _FILTER_COLORS = None
 
 
 def _find_closest_color(
-    color: Tuple[int, int, int], palette: List[Tuple[int, int, int]]
-) -> Tuple[int, int, int]:
+    color: typing.Tuple[int, int, int],
+    palette: typing.List[typing.Tuple[int, int, int]],
+) -> typing.Tuple[int, int, int]:
     """
     Finds the closest color in a given palette to the specified color.
 
@@ -183,7 +183,9 @@ def _find_closest_color(
     return closest_color
 
 
-def find_closest_colors(color_palette: List[Tuple[int, int, int]]) -> List[str]:
+def find_closest_colors(
+    color_palette: typing.List[typing.Tuple[int, int, int]]
+) -> typing.List[str]:
     """
     Finds the closest colors for each color in the given palette.
 

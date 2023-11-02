@@ -1,24 +1,23 @@
+import colorama
 import logging
 
-from colorama import Back, Fore, Style, init
-
-init(autoreset=True)
+colorama.init(autoreset=True)
 
 
 def _init_logger():
     class ColoredFormatter(logging.Formatter):
         def format(self, record):
-            level_color = f"{record.levelname}{Style.RESET_ALL}"
+            level_color = f"{record.levelname}{colorama.Style.RESET_ALL}"
             timestamp = self.formatTime(record, datefmt="%H:%M:%S %d-%b-%y")
             message = record.getMessage()
             message_color = {
-                logging.DEBUG: Fore.BLUE,
-                logging.INFO: Fore.GREEN,
-                logging.WARNING: Fore.YELLOW,
-                logging.ERROR: Fore.RED,
-                logging.CRITICAL: Fore.RED,
+                logging.DEBUG: colorama.Fore.BLUE,
+                logging.INFO: colorama.Fore.GREEN,
+                logging.WARNING: colorama.Fore.YELLOW,
+                logging.ERROR: colorama.Fore.RED,
+                logging.CRITICAL: colorama.Fore.RED,
             }.get(record.levelno, "")
-            return f"{timestamp} - {level_color}: {message_color}{message}{Style.RESET_ALL}"
+            return f"{timestamp} - {level_color}: {message_color}{message}{colorama.Style.RESET_ALL}"
 
     logger = logging.getLogger("my_logger")
     logger.setLevel(logging.DEBUG)
@@ -28,17 +27,23 @@ def _init_logger():
 
     logger.addHandler(console_handler)
 
-    logging.addLevelName(logging.DEBUG, f"{Fore.BLUE}DEBUG{Style.RESET_ALL}")
-    logging.addLevelName(logging.INFO, f"{Fore.GREEN}INFO{Style.RESET_ALL}")
     logging.addLevelName(
-        logging.WARNING, f"{Fore.YELLOW}{Style.BRIGHT}WARNING{Style.RESET_ALL}"
+        logging.DEBUG, f"{colorama.Fore.BLUE}DEBUG{colorama.Style.RESET_ALL}"
     )
     logging.addLevelName(
-        logging.ERROR, f"{Fore.RED}{Style.BRIGHT}ERROR{Style.RESET_ALL}"
+        logging.INFO, f"{colorama.Fore.GREEN}INFO{colorama.Style.RESET_ALL}"
+    )
+    logging.addLevelName(
+        logging.WARNING,
+        f"{colorama.Fore.YELLOW}{colorama.Style.BRIGHT}WARNING{colorama.Style.RESET_ALL}",
+    )
+    logging.addLevelName(
+        logging.ERROR,
+        f"{colorama.Fore.RED}{colorama.Style.BRIGHT}ERROR{colorama.Style.RESET_ALL}",
     )
     logging.addLevelName(
         logging.CRITICAL,
-        f"{Fore.WHITE}{Style.BRIGHT}{Back.RED} CRITICAL {Style.RESET_ALL}",
+        f"{colorama.Fore.WHITE}{colorama.Style.BRIGHT}{colorama.Back.RED} CRITICAL {colorama.Style.RESET_ALL}",
     )
 
     return logger
