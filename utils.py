@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 
+VERSION: str = "0.0.1"
+
 
 class CriticalError(Exception):
     """Critical exception that prevents the program from working properly."""
