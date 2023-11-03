@@ -13,7 +13,7 @@ def _init_logger():
             message_color = {
                 logging.DEBUG: colorama.Fore.BLUE,
                 logging.INFO: colorama.Fore.GREEN,
-                logging.WARNING: colorama.Fore.YELLOW,
+                logging.WARNING: colorama.Fore.MAGENTA,
                 logging.ERROR: colorama.Fore.RED,
                 logging.CRITICAL: colorama.Fore.RED,
             }.get(record.levelno, "")
@@ -28,14 +28,16 @@ def _init_logger():
     logger.addHandler(console_handler)
 
     logging.addLevelName(
-        logging.DEBUG, f"{colorama.Fore.BLUE}DEBUG{colorama.Style.RESET_ALL}"
+        logging.DEBUG,
+        f"{colorama.Fore.BLUE}{colorama.Style.BRIGHT}DEBUG{colorama.Style.RESET_ALL}",
     )
     logging.addLevelName(
-        logging.INFO, f"{colorama.Fore.GREEN}INFO{colorama.Style.RESET_ALL}"
+        logging.INFO,
+        f"{colorama.Fore.GREEN}{colorama.Style.BRIGHT}INFO{colorama.Style.RESET_ALL}",
     )
     logging.addLevelName(
         logging.WARNING,
-        f"{colorama.Fore.YELLOW}{colorama.Style.BRIGHT}WARNING{colorama.Style.RESET_ALL}",
+        f"{colorama.Fore.MAGENTA}{colorama.Style.BRIGHT}WARNING{colorama.Style.RESET_ALL}",
     )
     logging.addLevelName(
         logging.ERROR,
