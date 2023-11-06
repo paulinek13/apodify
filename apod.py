@@ -1,3 +1,5 @@
+import colorama
+import colors
 import config
 import datetime
 import dotenv
@@ -205,3 +207,85 @@ def generate_combined_image(
             )
 
     new_image.save(f"./.output/images/{date}.jpg", "JPEG")
+
+
+def extend_apod(
+    date: str,
+    title: str,
+    url: str,
+    hdurl: str | None,
+    thumbnail_url: str | None,
+    media_type: str,
+    explanation: str,
+) -> bool:
+    """Extend an APOD day with additional properties.
+
+    Args:
+        date: Date of an APOD.
+        title: The title of the APOD.
+        url: The URL of the APOD image or thumbnail of the APOD video. Used for color extraction.
+        hdurl: The URL for any high-resolution image for that day.
+        thumbnail_url: The URL of thumbnail of the video.
+        media_type: May be 'image' or 'video', based on content. # fix: see apod data for 2010-07-25
+        explanation: The text explanation of the APOD.
+
+    Returns:
+        A boolean: True is the operation was succesfull and False in case of an error.
+
+    """
+
+    print(colorama.Fore.YELLOW + f"{' ' * 20} {date}")
+
+    # todo: validate the input, in case of an error throw an exception OR just skip the APOD/day (configurable)
+    # todo: check if a date is within range specified in the config file
+
+    if media_type not in ["image", "video"]:
+        logger.critical("The media type was not recognized!")
+        logger.warning("Skipping this day!")
+        return False
+
+    _img_url = ""
+
+    if media_type == "video" and thumbnail_url:
+        _img_url = thumbnail_url
+    elif config.get.use_hdurl is True and hdurl:
+        _img_url = hdurl
+    else:
+        # fix: make sure it points to an image url
+        _img_url = url
+
+    logger.info(f"Extending APOD from {date}")
+
+    logger.debug(f"date:            {date}")
+    logger.debug(f"title:           {title}")
+    logger.debug(f"url:             {url}")
+    logger.debug(f"hdurl:           {hdurl}")
+    logger.debug(f"thumbnail_url:   {thumbnail_url}")
+    logger.debug(f"media_type:      {media_type}")
+    # logger.debug(f"explanation:     {explanation}")
+    logger.debug(f"_img_url:        {_img_url}")
+
+    _img, _content_type = fetch_apod_image(_img_url)
+    _colors_palette = colors.extract_colors(_img)
+    _filterable_colors = (
+        colors.find_closest_colors(_colors_palette)
+        if config.get.save_filterable_colors is True
+        else None
+    )
+
+    _hex_colors_palette = []
+    for _color in _colors_palette:
+        _hex_colors_palette.append(colors.rgb_to_hex(_color))
+
+    save_apod_data(
+        date,
+        _hex_colors_palette,
+        _filterable_colors,
+        _img_url,
+        media_type,
+        _content_type,
+    )
+
+    generate_combined_image(_img, date, _hex_colors_palette, _filterable_colors)
+
+    return True
