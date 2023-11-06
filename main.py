@@ -54,6 +54,8 @@ def main():
 
 
 if __name__ == "__main__":
+    utils.print_start_info()
+
     try:
         config.init()
 
@@ -66,3 +68,5 @@ if __name__ == "__main__":
         logger.critical(critical_error)
     except Exception as exception:
         logger.critical(traceback.format_exc())
+
+    print()

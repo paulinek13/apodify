@@ -1,3 +1,4 @@
+import colorama
 import json
 from datetime import datetime
 
@@ -20,6 +21,14 @@ def is_date_within_range(date: str, start_date: str, end_date: str) -> bool:
         <= datetime.strptime(date, "%Y-%m-%d")
         <= datetime.strptime(end_date, "%Y-%m-%d")
     )
+
+
+def print_start_info() -> None:
+    print(colorama.Fore.YELLOW + "▁" * 32)
+    print(colorama.Fore.YELLOW + "███ apod-extended " + "█" * 14)
+    print(colorama.Fore.YELLOW + "▔" * 32)
+    print(colorama.Style.RESET_ALL)
+    pass
 
 
 TODAY: str = datetime.now().strftime("%Y-%m-%d")
