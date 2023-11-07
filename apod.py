@@ -8,7 +8,6 @@ import os
 import pathlib
 import requests
 import typing
-import urllib.request
 import utils
 
 from PIL import Image, ImageDraw
@@ -99,9 +98,27 @@ def fetch_apod_image(url: str) -> tuple[Image.Image, str]:
             - A string representing the content type of the fetched image.
     """
 
-    res = urllib.request.urlretrieve(url, "./.temp/apod_image")
-    img = Image.open("./.temp/apod_image")
-    return img, res[1].get_content_type()
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        content_type = response.headers.get("content-type")
+
+        if content_type and content_type.startswith("image/"):
+            img_data = response.content
+            with open("./.temp/apod_image", "wb") as handler:
+                handler.write(img_data)
+            img = Image.open("./.temp/apod_image")
+            return img, content_type
+        else:
+            # todo: extract colors from a link/page anyway?
+            logger.warning("The URL does not point to an image.", {"url": url})
+            return None, content_type
+    elif response.status_code == 406:
+        logger.warning(
+            f"406 Not Acceptable, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406"
+        )
+
+    return None, response.headers.get("content-type")
 
 
 def save_apod_data(
@@ -266,16 +283,21 @@ def extend_apod(
     logger.debug(f"_img_url:        {_img_url}")
 
     _img, _content_type = fetch_apod_image(_img_url)
-    _colors_palette = colors.extract_colors(_img)
-    _filterable_colors = (
-        colors.find_closest_colors(_colors_palette)
-        if config.get.save_filterable_colors is True
-        else None
-    )
 
+    _filterable_colors = []
     _hex_colors_palette = []
-    for _color in _colors_palette:
-        _hex_colors_palette.append(colors.rgb_to_hex(_color))
+
+    if _img is not None:
+        _colors_palette = colors.extract_colors(_img)
+        _filterable_colors = (
+            colors.find_closest_colors(_colors_palette)
+            if config.get.save_filterable_colors is True
+            else None
+        )
+
+        _hex_colors_palette = []
+        for _color in _colors_palette:
+            _hex_colors_palette.append(colors.rgb_to_hex(_color))
 
     save_apod_data(
         date,
@@ -286,6 +308,7 @@ def extend_apod(
         _content_type,
     )
 
-    generate_combined_image(_img, date, _hex_colors_palette, _filterable_colors)
+    if _img is not None:
+        generate_combined_image(_img, date, _hex_colors_palette, _filterable_colors)
 
     return True
