@@ -1,4 +1,5 @@
 import apod
+import colors
 import config
 import os
 import traceback
@@ -9,7 +10,6 @@ from logger import logger
 
 def main():
     apod_data = apod.get_apod_data(config.get.start_date, config.get.end_date)
-    logger.info("Generating and categorizing color palettes for the data ...")
     # todo: progress bar
 
     for apod_item in apod_data:
@@ -32,14 +32,15 @@ def main():
 
 
 if __name__ == "__main__":
-    utils.print_start_info()
-
     try:
+        utils.print_start_info()
         config.init()
 
         os.makedirs("./.output/images/", exist_ok=True)
         os.makedirs("./.output/data/", exist_ok=True)
         os.makedirs("./.temp/", exist_ok=True)
+
+        colors.generate_filter_colors()
 
         main()
     except utils.CriticalError as critical_error:

@@ -7,6 +7,8 @@ import typing
 from PIL import Image, ImageDraw
 from logger import logger
 
+_FILTER_COLORS = None
+
 
 def rgb_to_hex(rgb: typing.Tuple[int, int, int]) -> str:
     """
@@ -42,14 +44,15 @@ def hex_to_rgb(hex_color: str) -> typing.Tuple[int, int, int]:
     return (r, g, b)
 
 
-def _generate_filter_colors() -> typing.List[typing.Tuple[int, int, int]]:
-    """
-    Generates a list of visually distinct colors for filtering purposes.
-    Also a preview image is generated.
+def generate_filter_colors():
+    """Generate a list of visually distinct colors for filtering purposes.
 
-    Returns:
-        List[Tuple[int, int, int]]: A list of RGB tuples representing the generated colors.
+    A preview image of the colors is generated as well.
     """
+
+    global _FILTER_COLORS
+    if _FILTER_COLORS is not None:
+        return
 
     logger.info(
         "Generating a list of filterable colors and a preview image for them ..."
@@ -121,7 +124,8 @@ def _generate_filter_colors() -> typing.List[typing.Tuple[int, int, int]]:
     image.save("./.output/filter_colors_preview.png")
 
     rgb_colors = [hex_to_rgb(hex_color) for hex_color in hex_colors]
-    return rgb_colors
+
+    _FILTER_COLORS = rgb_colors
 
 
 def extract_colors(img: Image.Image) -> typing.List[typing.Tuple[int, int, int]]:
@@ -143,9 +147,6 @@ def extract_colors(img: Image.Image) -> typing.List[typing.Tuple[int, int, int]]
         img, config.get.extcolors_tolerance, config.get.extcolors_limit
     )
     return [(r, g, b) for (r, g, b), _ in colors[0]]
-
-
-_FILTER_COLORS = None
 
 
 def _find_closest_color(
@@ -195,10 +196,6 @@ def find_closest_colors(
     Returns:
         List[str]: A list of hexadecimal color codes representing the closest colors.
     """
-
-    global _FILTER_COLORS
-    if _FILTER_COLORS is None:
-        _FILTER_COLORS = _generate_filter_colors()
 
     filterable_colors = []
     for color in color_palette:
