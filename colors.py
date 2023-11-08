@@ -11,29 +11,12 @@ _FILTER_COLORS = None
 
 
 def rgb_to_hex(rgb: typing.Tuple[int, int, int]) -> str:
-    """
-    Converts an RGB color represented as a tuple, e.g.: (232, 166, 0), to its hexadecimal representation.
-
-    Args:
-        rgb (tuple): A tuple representing an RGB color, where rgb[0] is the red component, rgb[1] - green, and rgb[2] - blue.
-
-    Returns:
-        str: A string representing the hexadecimal color code in the format "#RRGGBB".
-    """
-
+    """Convert an RGB color represented as a tuple to its hexadecimal representation."""
     return "#{:02X}{:02X}{:02X}".format(rgb[0], rgb[1], rgb[2])
 
 
 def hex_to_rgb(hex_color: str) -> typing.Tuple[int, int, int]:
-    """
-    Converts a hexadecimal color code to an RGB tuple.
-
-    Args:
-        hex_color (str): A hexadecimal color code (e.g., "#f325a9").
-
-    Returns:
-        Tuple[int, int, int]: An RGB tuple where each component (R, G, B) is an integer in the range [0, 255].
-    """
+    """Convert a hexadecimal color code to an RGB tuple."""
 
     hex_color = hex_color.lstrip("#")
 
@@ -129,16 +112,15 @@ def generate_filter_colors():
 
 
 def extract_colors(img: Image.Image) -> typing.List[typing.Tuple[int, int, int]]:
-    """
-    Extracts main/distinct/prominent colors (basically - a color palette) from an image and returns them as RGB tuples.
+    """Extract main/distinct/prominent colors (a color palette) from an image.
 
     Args:
-        img: An image from which colors will be extracted. Should be a Pillow's Image object.
+        img: An image from which colors will be extracted. Must be a Pillow's Image object.
 
     Returns:
-        List[Tuple[int, int, int]]: A list of extracted colors.
+        A list of the extracted colors. Each color is represented as an RGB tuple.
 
-    Note:
+    Notes:
         A lower 'tolerance' value results in more distinct colors being extracted.
         The `limit` parameter determines the maximum number of colors to be extracted from the image.
     """
@@ -153,15 +135,14 @@ def _find_closest_color(
     color: typing.Tuple[int, int, int],
     palette: typing.List[typing.Tuple[int, int, int]],
 ) -> typing.Tuple[int, int, int]:
-    """
-    Finds the closest color in a given palette to the specified color.
+    """Find the closest color in a given palette to a specified color.
 
     Args:
-        color (Tuple[int, int, int]): The RGB color for which to find the closest match.
-        palette (List[Tuple[int, int, int]]): The palette of RGB colors to search within.
+        color: The RGB color for which to find the closest match.
+        palette: The palette of RGB colors to search within.
 
     Returns:
-        Tuple[int, int, int]: The closest RGB color from the palette.
+        The closest color from the palette represented as an RGB tuple.
 
     Note:
         This function calculates the closest color using Euclidean distance in the RGB color space.
@@ -187,14 +168,13 @@ def _find_closest_color(
 def find_closest_colors(
     color_palette: typing.List[typing.Tuple[int, int, int]]
 ) -> typing.List[str]:
-    """
-    Finds the closest colors for each color in the given palette.
+    """Find the closest colors for each color in a given palette.
 
     Args:
-        color_palette (List[Tuple[int, int, int]]): The palette of RGB colors.
+        color_palette: The palette of RGB colors.
 
     Returns:
-        List[str]: A list of hexadecimal color codes representing the closest colors.
+        A list of hexadecimal color codes representing the closest colors.
     """
 
     filterable_colors = []

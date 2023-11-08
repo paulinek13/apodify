@@ -19,15 +19,14 @@ dotenv.load_dotenv()
 def get_apod_data(
     start_date: str, end_date: str
 ) -> typing.List[typing.Dict[str, typing.Union[str, int]]]:
-    """
-    Retrieves Astronomy Picture of the Day (APOD) data for a specified date range.
+    """Retrieve Astronomy Picture of the Day (APOD) data for a specified date range.
 
     Args:
-        start_date (str, optional): The start date for the APOD data range in the format "YYYY-MM-DD".
-        end_date (str, optional): The end date for the APOD data range in the format "YYYY-MM-DD".
+        start_date: The start date for the APOD data range in the format "YYYY-MM-DD".
+        end_date: The end date for the APOD data range in the format "YYYY-MM-DD".
 
     Returns:
-        list: A list of dictionaries, where each dictionary represents APOD data for a specific date.
+        A list of dictionaries, where each dictionary represents APOD data for a specific date.
     """
 
     if config.get.use_temp_apod_data:
@@ -86,16 +85,18 @@ def get_apod_data(
 
 
 def fetch_apod_image(url: str) -> tuple[Image.Image, str]:
-    """
-    Fetches an APOD image from a given URL and saves it locally (./.temp/apod_image).
+    """Fetch an APOD image from a given URL and save it locally.
 
     Args:
-        url (str): The URL of the image to fetch.
+        url: The URL of the image to fetch.
 
     Returns:
-        tuple[Image.Image, str]: A tuple containing two elements:
+        A tuple containing two elements:
             - A Pillow's Image object representing the fetched image.
             - A string representing the content type of the fetched image.
+
+    Notes:
+        The retrieved image is saved at ./.temp/apod_image.
     """
 
     response = requests.get(url)
@@ -129,16 +130,15 @@ def save_apod_data(
     media_type: str,
     content_type: str,
 ) -> None:
-    """
-    Saves APOD data (for a single day) to a JSON file.
+    """Save APOD data (for a single day) to a JSON file.
 
     Args:
-        date (str): The date for which the APOD data is saved (e.g., "2023-09-15").
-        color_palette (List[str]): A color palette associated with the APOD.
-        filterable_colors (List[str]): A filterable color palette based on the color palette.
-        url (str): The URL of the APOD image on which the palettes are based.
-        media_type (str): The media type returned by the APOD API.
-        content_type (str): The content type of an image.
+        date: The date for which the APOD data is saved (format: "YYYY-MM-DD").
+        color_palette: The color palette associated with the APOD.
+        filterable_colors: The filterable color palette based on the color palette.
+        url: The URL of the APOD image on which the palettes are based.
+        media_type: The media type returned by the APOD API.
+        content_type: The content type of the image.
     """
 
     dict_data = {
@@ -171,14 +171,13 @@ def generate_combined_image(
     color_palette: typing.List[str],
     filterable_colors: typing.List[str],
 ) -> None:
-    """
-    Generates a combined image from an APOD image, its color palette, and filterable colors.
+    """Generate a combined image from an APOD image, its color palette, and filterable colors.
 
     Args:
-        apod_image (PIL.Image.Image): The APOD image to include in the combined image.
-        date (str): The APOD date for which the image is generated (YYYY-MM-DD).
-        color_palette (List[str]): The color palette associated with the APOD image.
-        filterable_colors (List[str]): The filterable colors corresponding to the color palette.
+        apod_image: The APOD image to be included in the combined image. Must be a Pillow's Image object.
+        date: The APOD date for which the image is generated (YYYY-MM-DD).
+        color_palette: The color palette associated with the APOD image.
+        filterable_colors: The filterable colors corresponding to the color palette.
     """
 
     if config.get.generate_combined_image is False:
