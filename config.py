@@ -1,14 +1,15 @@
+import utils
 import yaml
 
-import utils
+from datetime import datetime, timedelta
 
 
 class get:
-    """
-    Default configuration settings.
-    """
+    """Default configuration settings."""
 
     # todo: add more info
+
+    date = None
 
     start_date = utils.TODAY
     end_date = utils.TODAY
@@ -29,9 +30,7 @@ class get:
 
 
 def init():
-    """
-    Load 'config.yml' file and update the configuration settings.
-    """
+    """Load 'config.yml' file and update the configuration settings."""
 
     with open("config.yml", "r") as file:
         data = yaml.safe_load(file)
@@ -39,6 +38,14 @@ def init():
 
         # todo: improve the code below
 
+        if "date" in data:
+            _date = data["date"]
+            if _date == "today":
+                get.date = utils.TODAY
+            elif _date == "yesterday":
+                get.date = (datetime.today() - timedelta(1)).strftime("%Y-%m-%d")
+            elif _date == "tomorrow":
+                get.date = (datetime.today() + timedelta(1)).strftime("%Y-%m-%d")
         if "start_date" in data:
             get.start_date = data["start_date"]
         if "end_date" in data:

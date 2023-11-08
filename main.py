@@ -9,7 +9,7 @@ from logger import logger
 
 
 def main():
-    apod_data = apod.get_apod_data(config.get.start_date, config.get.end_date)
+    apod_data = apod.get_apod_data()
     # todo: progress bar
 
     for apod_item in apod_data:

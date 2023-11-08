@@ -16,14 +16,8 @@ from logger import logger
 dotenv.load_dotenv()
 
 
-def get_apod_data(
-    start_date: str, end_date: str
-) -> typing.List[typing.Dict[str, typing.Union[str, int]]]:
+def get_apod_data() -> typing.List[typing.Dict[str, typing.Union[str, int]]]:
     """Retrieve Astronomy Picture of the Day (APOD) data for a specified date range.
-
-    Args:
-        start_date: The start date for the APOD data range in the format "YYYY-MM-DD".
-        end_date: The end date for the APOD data range in the format "YYYY-MM-DD".
 
     Returns:
         A list of dictionaries, where each dictionary represents APOD data for a specific date.
@@ -38,20 +32,31 @@ def get_apod_data(
         else:
             logger.warning("The temp file with APOD items was not found!")
 
-    if not utils.is_date_within_range(start_date, "1995-06-16", utils.TODAY):
+    if not utils.is_date_within_range(config.get.start_date, "1995-06-16", utils.TODAY):
         raise utils.CriticalError(
             "'START_DATE' cannot be later than the present day or earlier than '1995-06-16' (the day APOD started)"
         )
 
-    if not utils.is_date_within_range(end_date, "1995-06-16", utils.TODAY):
+    if not utils.is_date_within_range(config.get.end_date, "1995-06-16", utils.TODAY):
         raise utils.CriticalError(
             "'END_DATE' cannot be later than the present day or earlier than '1995-06-16' (the day APOD started)"
         )
 
-    logger.info(f"Retrieving APOD data ({start_date} - {end_date}) ...")
+    logger.info(
+        f"Retrieving APOD data ({f'{config.get.start_date} - {config.get.end_date}' if config.get.date is None else f'{config.get.date}'}) ..."
+    )
 
     base_url = "https://api.nasa.gov/planetary/apod"
-    url = f"{base_url}?api_key={os.getenv('NASA_API_KEY')}&start_date={start_date}&end_date={end_date}&thumbs=true"
+
+    # using the search parameters 'start_date' and 'end_date' even for a single day
+    # instead of just 'date', because the APOD API returns the data as a table in such cases;
+    query = (
+        f"start_date={config.get.start_date}&end_date={config.get.end_date}"
+        if config.get.date is None
+        else f"start_date={config.get.date}&end_date={config.get.date}"
+    )
+
+    url = f"{base_url}?api_key={os.getenv('NASA_API_KEY')}&{query}&thumbs=true"
 
     response = requests.get(url)
 
