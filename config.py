@@ -2,6 +2,7 @@ import utils
 import yaml
 
 from datetime import datetime, timedelta
+from logger import logger
 
 
 class get:
@@ -36,8 +37,6 @@ def init():
         data = yaml.safe_load(file)
         # todo validate the input
 
-        # todo: improve the code below
-
         if "date" in data:
             _date = data["date"]
             if _date == "today":
@@ -46,6 +45,13 @@ def init():
                 get.date = (datetime.today() - timedelta(1)).strftime("%Y-%m-%d")
             elif _date == "tomorrow":
                 get.date = (datetime.today() + timedelta(1)).strftime("%Y-%m-%d")
+            elif utils.is_valid_date_format(_date):
+                get.date = _date
+            else:
+                logger.warning(
+                    "The 'date' configuration option is invalid; the date range will be used instead!"
+                )
+
         if "start_date" in data:
             get.start_date = data["start_date"]
         if "end_date" in data:
