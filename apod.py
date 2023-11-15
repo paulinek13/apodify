@@ -255,6 +255,8 @@ def extend_apod(
 
     """
 
+    _apod_start_time = datetime.datetime.now()
+
     print(colorama.Fore.YELLOW + f"{' ' * 20} {date}")
 
     # todo: validate the input, in case of an error throw an exception OR just skip the APOD/day (configurable)
@@ -277,12 +279,11 @@ def extend_apod(
 
     logger.info(f"Extending APOD from {date}")
 
-    logger.debug(f"date:            {date}")
-    logger.debug(f"title:           {title}")
+    logger.debug(f"                 {date} / {title} / {media_type}")
     logger.debug(f"url:             {url}")
     logger.debug(f"hdurl:           {hdurl}")
-    logger.debug(f"thumbnail_url:   {thumbnail_url}")
-    logger.debug(f"media_type:      {media_type}")
+    if thumbnail_url is not None:
+        logger.debug(f"thumbnail_url:   {thumbnail_url}")
     # logger.debug(f"explanation:     {explanation}")
     logger.debug(f"_img_url:        {_img_url}")
 
@@ -314,5 +315,9 @@ def extend_apod(
 
     if _img is not None:
         generate_combined_image(_img, date, _hex_colors_palette, _filterable_colors)
+
+    logger.info(
+        f"Finished in {colorama.Style.BRIGHT}{(datetime.datetime.now() - _apod_start_time).total_seconds()}{colorama.Style.NORMAL} sec!"
+    )
 
     return True

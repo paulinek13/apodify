@@ -1,6 +1,8 @@
 import apod
+import colorama
 import colors
 import config
+import datetime
 import os
 import traceback
 import utils
@@ -27,11 +29,10 @@ def main():
 
     print()
 
-    # todo: "finished in": measure time (for individual images as well)
-    logger.info("... finished!")
-
 
 if __name__ == "__main__":
+    _start_time = datetime.datetime.now()
+
     try:
         utils.print_start_info()
         config.init()
@@ -47,5 +48,9 @@ if __name__ == "__main__":
         logger.critical(critical_error)
     except Exception as exception:
         logger.critical(traceback.format_exc())
+
+    logger.info(
+        f"The program finished in {colorama.Style.BRIGHT}{(datetime.datetime.now() - _start_time).total_seconds()}{colorama.Style.NORMAL} sec!"
+    )
 
     print()
