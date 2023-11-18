@@ -23,6 +23,9 @@ class get:
     save_content_type = False
     save_color_palette = True
     save_filterable_colors = True
+    save_img_width = False
+    save_img_height = False
+    save_img_wh_ratio = False
 
     generate_combined_image = True
 
@@ -72,6 +75,12 @@ def init():
             get.save_color_palette = data["save_color_palette"]
         if "save_filterable_colors" in data:
             get.save_filterable_colors = data["save_filterable_colors"]
+        if "save_img_width" in data:
+            get.save_img_width = data["save_img_width"]
+        if "save_img_height" in data:
+            get.save_img_height = data["save_img_height"]
+        if "save_img_wh_ratio" in data:
+            get.save_img_wh_ratio = data["save_img_wh_ratio"]
 
         if "generate_combined_image" in data:
             get.generate_combined_image = data["generate_combined_image"]

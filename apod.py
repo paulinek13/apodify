@@ -89,7 +89,7 @@ def get_apod_data() -> typing.List[typing.Dict[str, typing.Union[str, int]]]:
         )
 
 
-def fetch_apod_image(url: str) -> tuple[Image.Image, str]:
+def fetch_apod_image(url: str) -> tuple[Image.Image, str, tuple[int, int]]:
     """Fetch an APOD image from a given URL and save it locally.
 
     Args:
@@ -99,6 +99,7 @@ def fetch_apod_image(url: str) -> tuple[Image.Image, str]:
         A tuple containing two elements:
             - A Pillow's Image object representing the fetched image.
             - A string representing the content type of the fetched image.
+            - A tuple containing the size of the image (width, height).
 
     Notes:
         The retrieved image is saved at ./.temp/apod_image.
@@ -116,7 +117,7 @@ def fetch_apod_image(url: str) -> tuple[Image.Image, str]:
             with open("./.temp/apod_image", "wb") as handler:
                 handler.write(img_data)
             img = Image.open("./.temp/apod_image")
-            return img, content_type
+            return img, content_type, img.size
         else:
             # todo: extract colors from a link/page anyway?
             logger.warning("The URL does not point to an image.", {"url": url})
@@ -136,6 +137,7 @@ def save_apod_data(
     url: str,
     media_type: str,
     content_type: str,
+    img_size: tuple[int, int],
 ) -> None:
     """Save APOD data (for a single day) to a JSON file.
 
@@ -146,6 +148,7 @@ def save_apod_data(
         url: The URL of the APOD image on which the palettes are based.
         media_type: The media type returned by the APOD API.
         content_type: The content type of the image.
+        img_size: the size of the image (width, height).
     """
 
     logger.info(f"Saving APOD data ...")
@@ -164,6 +167,12 @@ def save_apod_data(
         dict_data["colors"] = color_palette
     if config.get.save_filterable_colors is True:
         dict_data["filterable"] = filterable_colors
+    if config.get.save_img_width is True:
+        dict_data["width"] = img_size[0]
+    if config.get.save_img_height is True:
+        dict_data["height"] = img_size[1]
+    if config.get.save_img_wh_ratio:
+        dict_data["wh_ratio"] = round(img_size[0] / img_size[1], 2)
 
     final_data_json = json.dumps(dict_data, indent=4)
     date_obj = datetime.datetime.strptime(date, "%Y-%m-%d")
@@ -293,7 +302,7 @@ def extend_apod(
     # logger.debug(f"explanation:     {explanation}")
     logger.debug(f"_img_url:        {_img_url}")
 
-    _img, _content_type = fetch_apod_image(_img_url)
+    _img, _content_type, _img_size = fetch_apod_image(_img_url)
 
     _filterable_colors = []
     _hex_colors_palette = []
@@ -317,6 +326,7 @@ def extend_apod(
         _img_url,
         media_type,
         _content_type,
+        _img_size,
     )
 
     if _img is not None:
