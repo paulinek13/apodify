@@ -125,6 +125,8 @@ def extract_colors(img: Image.Image) -> typing.List[typing.Tuple[int, int, int]]
         The `limit` parameter determines the maximum number of colors to be extracted from the image.
     """
 
+    logger.info(f"Extracting colors from the image ...")
+
     colors = extcolors.extract_from_image(
         img, config.get.extcolors_tolerance, config.get.extcolors_limit
     )
@@ -162,6 +164,8 @@ def _find_closest_color(
             min_distance = distance
             closest_color = palette_color
 
+    logger.debug(f"The closest color for {color}: {closest_color}")
+
     return closest_color
 
 
@@ -177,7 +181,14 @@ def find_closest_colors(
         A list of hexadecimal color codes representing the closest colors.
     """
 
+    logger.info(f"Finding the closest colors ...")
+
+    logger.debug(f"Color palette: {color_palette}")
+
     filterable_colors = []
     for color in color_palette:
         filterable_colors.append(rgb_to_hex(_find_closest_color(color, _FILTER_COLORS)))
+
+    logger.debug(f"Filterable colors: {filterable_colors}")
+
     return filterable_colors

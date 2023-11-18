@@ -104,6 +104,8 @@ def fetch_apod_image(url: str) -> tuple[Image.Image, str]:
         The retrieved image is saved at ./.temp/apod_image.
     """
 
+    logger.info(f"Fetching an APOD image ...")
+
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -146,6 +148,8 @@ def save_apod_data(
         content_type: The content type of the image.
     """
 
+    logger.info(f"Saving APOD data ...")
+
     dict_data = {
         "date": date,
     }
@@ -187,6 +191,8 @@ def generate_combined_image(
 
     if config.get.generate_combined_image is False:
         return
+
+    logger.info(f"Generating a combined image for previewing results ...")
 
     # todo: improve this implementation
 
@@ -277,7 +283,7 @@ def extend_apod(
         # fix: make sure it points to an image url
         _img_url = url
 
-    logger.info(f"Extending APOD from {date}")
+    logger.info(f"Extending APOD from {date} ...")
 
     logger.debug(f"                 {date} / {title} / {media_type}")
     logger.debug(f"url:             {url}")
