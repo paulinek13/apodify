@@ -27,7 +27,7 @@ def hex_to_rgb(hex_color: str) -> typing.Tuple[int, int, int]:
     return (r, g, b)
 
 
-def generate_filter_colors():
+def generate_filter_colors() -> None:
     """Generate a list of visually distinct colors for filtering purposes.
 
     A preview image of the colors is generated as well.

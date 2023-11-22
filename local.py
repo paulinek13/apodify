@@ -11,7 +11,7 @@ from logger import logger
 dotenv.load_dotenv()
 
 
-def save_apods(start_date, end_date):
+def save_apods(start_date: str, end_date: str) -> None:
     """Save APOD data locally for a specific date range.
 
     Data from one APOD day corresponds to one file stored at `/.local_apod/data/{YYYY}/{MM}/{DD}.json`.
@@ -52,7 +52,7 @@ def save_apods(start_date, end_date):
         return
 
 
-def fetch_apods_by_year(year):
+def fetch_apods_by_year(year: int) -> None:
     if year == 1995:
         save_apods("1995-06-16", "1995-12-31")
     elif year == datetime.date.today().year:

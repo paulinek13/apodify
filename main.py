@@ -10,7 +10,7 @@ import utils
 from logger import logger
 
 
-def main():
+def main() -> None:
     apod_data = apod.get_apod_data()
     # todo: progress bar
 

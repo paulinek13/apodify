@@ -4,7 +4,7 @@ import logging
 colorama.init(autoreset=True)
 
 
-def _init_logger():
+def _init_logger() -> None:
     class ColoredFormatter(logging.Formatter):
         def format(self, record):
             level_color = f"{record.levelname}{colorama.Style.RESET_ALL}"
