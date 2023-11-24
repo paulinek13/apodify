@@ -48,6 +48,32 @@ def save_apods(start_date: str, end_date: str) -> None:
             outfile.parent.mkdir(exist_ok=True, parents=True)
             outfile.write_text(json.dumps(apod, indent=4))
 
+            img_url = apod["thumbnail_url"] if "thumbnail_url" in apod else apod["url"]
+
+            img_response = requests.get(img_url)
+
+            if img_response.status_code == 200:
+                content_type = img_response.headers.get("content-type")
+                extension = content_type.split("/")[-1] if content_type else "jpg"
+
+                if content_type and content_type.startswith("image/"):
+                    logger.info(f"Saving the corresponding APOD image ...")
+
+                    img_data = img_response.content
+                    with open(
+                        f"./.local_apod/data/{date_obj.year}/{str(date_obj.month).zfill(2)}/{str(date_obj.day).zfill(2)}-img.{extension}",
+                        "wb",
+                    ) as handler:
+                        handler.write(img_data)
+                else:
+                    logger.warning(
+                        "Non-image APOD",
+                        {
+                            "date": date,
+                            "url": apod["url"],
+                            "media_type": apod["media_type"],
+                        },
+                    )
     else:
         return
 
