@@ -121,13 +121,13 @@ def fetch_apod_image(url: str) -> tuple[Image.Image, str, tuple[int, int]]:
         else:
             # todo: extract colors from a link/page anyway?
             logger.warning("The URL does not point to an image.", {"url": url})
-            return None, content_type
+            return None, content_type, None
     elif response.status_code == 406:
         logger.warning(
             f"406 Not Acceptable, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406"
         )
 
-    return None, response.headers.get("content-type")
+    return None, response.headers.get("content-type"), None
 
 
 def save_apod_data(
