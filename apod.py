@@ -319,18 +319,20 @@ def extend_apod(
         for _color in _colors_palette:
             _hex_colors_palette.append(colors.rgb_to_hex(_color))
 
-    save_apod_data(
-        date,
-        _hex_colors_palette,
-        _filterable_colors,
-        _img_url,
-        media_type,
-        _content_type,
-        _img_size,
-    )
+        save_apod_data(
+            date,
+            _hex_colors_palette,
+            _filterable_colors,
+            _img_url,
+            media_type,
+            _content_type,
+            _img_size,
+        )
 
-    if _img is not None:
         generate_combined_image(_img, date, _hex_colors_palette, _filterable_colors)
+
+    else:
+        logger.warning("This APOD was NOT extended!")
 
     logger.info(
         f"Finished in {colorama.Style.BRIGHT}{(datetime.datetime.now() - _apod_start_time).total_seconds()}{colorama.Style.NORMAL} sec!"
