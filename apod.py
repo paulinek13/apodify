@@ -107,27 +107,31 @@ def fetch_apod_image(url: str) -> tuple[Image.Image, str, tuple[int, int]]:
 
     logger.info(f"Fetching an APOD image ...")
 
-    response = requests.get(url)
+    try:
+        response = requests.get(url)
 
-    if response.status_code == 200:
-        content_type = response.headers.get("content-type")
+        if response.status_code == 200:
+            content_type = response.headers.get("content-type")
 
-        if content_type and content_type.startswith("image/"):
-            img_data = response.content
-            with open("./.temp/apod_image", "wb") as handler:
-                handler.write(img_data)
-            img = Image.open("./.temp/apod_image")
-            return img, content_type, img.size
-        else:
-            # todo: extract colors from a link/page anyway?
-            logger.warning("The URL does not point to an image.", {"url": url})
-            return None, content_type, None
-    elif response.status_code == 406:
-        logger.warning(
-            f"406 Not Acceptable, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406"
-        )
+            if content_type and content_type.startswith("image/"):
+                img_data = response.content
+                with open("./.temp/apod_image", "wb") as handler:
+                    handler.write(img_data)
+                img = Image.open("./.temp/apod_image")
+                return img, content_type, img.size
+            else:
+                # todo: extract colors from a link/page anyway?
+                logger.warning("The URL does not point to an image.", {"url": url})
+                return None, content_type, None
+        elif response.status_code == 406:
+            logger.warning(
+                f"406 Not Acceptable, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406"
+            )
 
-    return None, response.headers.get("content-type"), None
+        return None, response.headers.get("content-type"), None
+
+    except:
+        return None, None, None
 
 
 def save_apod_data(
