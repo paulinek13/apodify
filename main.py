@@ -18,13 +18,13 @@ def main() -> None:
         print()
 
         apod.extend_apod(
-            apod_item["date"],
-            apod_item["title"],
-            apod_item["url"],
+            apod_item["date"] if "date" in apod_item else None,
+            apod_item["title"] if "title" in apod_item else None,
+            apod_item["url"] if "url" in apod_item else None,
             apod_item["hdurl"] if "hdurl" in apod_item else None,
             apod_item["thumbnail_url"] if "thumbnail_url" in apod_item else None,
-            apod_item["media_type"],
-            apod_item["explanation"],
+            apod_item["media_type"] if "media_type" in apod_item else None,
+            apod_item["explanation"] if "explanation" in apod_item else None,
         )
 
     print()
