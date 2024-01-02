@@ -176,7 +176,7 @@ def save_apod_data(
     if config.get.save_img_height is True:
         dict_data["height"] = img_size[1]
     if config.get.save_img_wh_ratio:
-        dict_data["wh_ratio"] = round(img_size[0] / img_size[1], 2)
+        dict_data["wh_ratio"] = round(img_size[0] / img_size[1], 1)
 
     final_data_json = json.dumps(dict_data, indent=4)
     date_obj = datetime.datetime.strptime(date, "%Y-%m-%d")
