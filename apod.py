@@ -308,15 +308,17 @@ def extend_apod(
 
     _img, _content_type, _img_size = fetch_apod_image(_img_url)
 
-    _filterable_colors = []
-    _hex_colors_palette = []
-
     if _img is not None:
-        _colors_palette = colors.extract_colors(_img)
+        _colors_palette = (
+            colors.extract_colors(_img) if config.get.save_color_palette is True else []
+        )
         _filterable_colors = (
             colors.find_closest_colors(_colors_palette)
-            if config.get.save_filterable_colors is True
-            else None
+            if (
+                config.get.save_filterable_colors is True
+                and config.get.save_color_palette is True
+            )
+            else []
         )
 
         _hex_colors_palette = []
