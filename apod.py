@@ -142,6 +142,7 @@ def save_apod_data(
     media_type: str,
     content_type: str,
     img_size: tuple[int, int],
+    is_animated: bool,
 ) -> None:
     """Save APOD data (for a single day) to a JSON file.
 
@@ -153,6 +154,7 @@ def save_apod_data(
         media_type: The media type returned by the APOD API.
         content_type: The content type of the image.
         img_size: the size of the image (width, height).
+        is_animated: whether the image has more than one frame
     """
 
     logger.info(f"Saving APOD data ...")
@@ -177,6 +179,8 @@ def save_apod_data(
         dict_data["height"] = img_size[1]
     if config.get.save_img_wh_ratio:
         dict_data["wh_ratio"] = round(img_size[0] / img_size[1], 1)
+    if config.get.save_is_animated:
+        dict_data["is_animated"] = is_animated
 
     final_data_json = json.dumps(dict_data, indent=4)
     date_obj = datetime.datetime.strptime(date, "%Y-%m-%d")
@@ -333,6 +337,7 @@ def extend_apod(
             media_type,
             _content_type,
             _img_size,
+            getattr(_img, "is_animated", False),
         )
 
         generate_combined_image(_img, date, _hex_colors_palette, _filterable_colors)

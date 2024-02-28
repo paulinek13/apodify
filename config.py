@@ -26,6 +26,7 @@ class get:
     save_img_width = False
     save_img_height = False
     save_img_wh_ratio = False
+    save_is_animated = True
 
     generate_combined_image = True
 
@@ -81,6 +82,8 @@ def init():
             get.save_img_height = data["save_img_height"]
         if "save_img_wh_ratio" in data:
             get.save_img_wh_ratio = data["save_img_wh_ratio"]
+        if "save_is_animated" in data:
+            get.save_is_animated = data["save_is_animated"]
 
         if "generate_combined_image" in data:
             get.generate_combined_image = data["generate_combined_image"]
