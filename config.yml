@@ -9,6 +9,10 @@ save_media_type: True
 save_content_type: False
 save_color_palette: True
 save_filterable_colors: True
+save_img_width: True
+save_img_height: True
+save_img_wh_ratio: True
+save_is_animated: True
 
 generate_combined_image: True
 
