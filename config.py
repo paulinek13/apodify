@@ -18,6 +18,8 @@ class get:
     use_temp_apod_data = False
     use_hdurl = False
 
+    supabase_upload = True
+
     save_url = True
     save_media_type = True
     save_content_type = False
@@ -65,6 +67,9 @@ def init():
             get.use_temp_apod_data = data["use_temp_apod_data"]
         if "use_hdurl" in data:
             get.use_hdurl = data["use_hdurl"]
+
+        if "supabase_upload" in data:
+            get.supabase_upload = data["supabase_upload"]
 
         if "save_url" in data:
             get.save_url = data["save_url"]

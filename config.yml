@@ -4,6 +4,8 @@ end_date: "2023-01-03"
 use_temp_apod_data: False
 use_hdurl: False
 
+supabase_upload: True
+
 save_url: True
 save_media_type: True
 save_content_type: False

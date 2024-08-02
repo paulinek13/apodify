@@ -2,7 +2,6 @@ import colorama
 import colors
 import config
 import datetime
-import dotenv
 import json
 import os
 import pathlib
@@ -12,8 +11,7 @@ import utils
 
 from PIL import Image, ImageDraw
 from logger import logger
-
-dotenv.load_dotenv()
+from supa import supabase_upload_v1
 
 
 def get_apod_data() -> typing.List[typing.Dict[str, typing.Union[str, int]]]:
@@ -139,6 +137,7 @@ def save_apod_data(
     color_palette: typing.List[str],
     filterable_colors: typing.List[str],
     url: str,
+    hdurl: str,
     media_type: str,
     content_type: str,
     img_size: tuple[int, int],
@@ -162,6 +161,22 @@ def save_apod_data(
     dict_data = {
         "date": date,
     }
+
+    if config.get.supabase_upload is True:
+        date_obj = datetime.datetime.strptime(date, "%Y-%m-%d")
+        supabase_upload_v1(
+            date_obj.year,
+            date_obj.month,
+            date_obj.day,
+            url,
+            hdurl,
+            media_type,
+            img_size[0],
+            img_size[1],
+            round(img_size[0] / img_size[1], 1),
+            color_palette,
+        )
+        return
 
     if config.get.save_url is True:
         dict_data["url"] = url
@@ -334,6 +349,7 @@ def extend_apod(
             _hex_colors_palette,
             _filterable_colors,
             _img_url,
+            hdurl,
             media_type,
             _content_type,
             _img_size,

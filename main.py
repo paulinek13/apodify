@@ -1,3 +1,7 @@
+import dotenv
+
+dotenv.load_dotenv()
+
 import apod
 import colorama
 import colors
