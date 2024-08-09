@@ -52,7 +52,7 @@
 
 ## About `apod-extended`
 
-The goal of the project is, simply put, to **improve APODs**. This improvement includes, for example, the ability to add more information, as well as color-based searching and filtering.
+The goal of this project is to **enhance APODs** (Astronomy Picture of the Day), with a primary focus on tailoring these enhancements specifically for the needs of [neso](https://github.com/paulinek13/neso). This includes features such as adding more detailed information to APOD entries and implementing advanced functionality like color-based searching and filtering. The project has recently shifted direction to prioritize integration and customization for [neso](https://github.com/paulinek13/neso), ensuring that all new features align closely with its specific requirements.
 
 <p align="right"><a href="#readme-top">ᴛᴏᴘ⇈</a></p>
 
