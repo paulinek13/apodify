@@ -39,7 +39,7 @@ def is_valid_date_format(date_string: str) -> bool:
 
 def print_start_info() -> None:
     print(colorama.Fore.YELLOW + "▁" * 32)
-    print(colorama.Fore.YELLOW + "███ apod-extended " + "█" * 14)
+    print(colorama.Fore.YELLOW + "███ apodify " + "█" * 14)
     print(colorama.Fore.YELLOW + "▔" * 32)
     print(colorama.Style.RESET_ALL)
     pass

@@ -1,15 +1,15 @@
 <a id="readme-top"></a>
 <div align="center">
-<h3 align="center">apod-extended</h3>
+<h3 align="center">apodify</h3>
 
   <p align="center">
     Enhance APOD by adding extra properties for better organization and filtering.
     <br />
     <a href="#getting-started"><strong>Getting Started »</strong></a>
     <br />
-    <a href="https://github.com/paulinek13/apod-extended/issues">Report Bug</a>
+    <a href="https://github.com/paulinek13/apodify/issues">Report Bug</a>
     ·
-    <a href="https://github.com/paulinek13/apod-extended/issues">Request Feature</a>
+    <a href="https://github.com/paulinek13/apodify/issues">Request Feature</a>
   </p>
 </div>
 
@@ -21,10 +21,10 @@
 
 <br />
 
-![GitHub](https://img.shields.io/github/license/paulinek13/apod-extended?style=for-the-badge)
-![GitHub issues](https://img.shields.io/github/issues/paulinek13/apod-extended?style=for-the-badge)
-![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/paulinek13/apod-extended?style=for-the-badge)
-![GitHub all releases](https://img.shields.io/github/downloads/paulinek13/apod-extended/total?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/paulinek13/apodify?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/paulinek13/apodify?style=for-the-badge)
+![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/paulinek13/apodify?style=for-the-badge)
+![GitHub all releases](https://img.shields.io/github/downloads/paulinek13/apodify/total?style=for-the-badge)
 
 ![Python Badge](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=for-the-badge)
 ![.ENV Badge](https://img.shields.io/badge/.ENV-ECD53F?logo=dotenv&logoColor=000&style=for-the-badge)
@@ -35,7 +35,7 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#about-apod-extended">About `apod-extended`</a></li>
+    <li><a href="#about-apodify">About `apodify`</a></li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -50,7 +50,7 @@
 
 <br />
 
-## About `apod-extended`
+## About `apodify`
 
 The goal of this project is to **enhance APODs** (Astronomy Picture of the Day), with a primary focus on tailoring these enhancements specifically for the needs of [neso](https://github.com/paulinek13/neso). This includes features such as adding more detailed information to APOD entries and implementing advanced functionality like color-based searching and filtering. The project has recently shifted direction to prioritize integration and customization for [neso](https://github.com/paulinek13/neso), ensuring that all new features align closely with its specific requirements.
 
@@ -73,11 +73,11 @@ While not mandatory, having a NASA API key allows for increased usage limits. Th
 1. Clone the repo
 
     ```sh
-    git clone https://github.com/paulinek13/apod-extended.git
+    git clone https://github.com/paulinek13/apodify.git
     ```
 2. Change directory
     ```sh
-    cd apod-extended
+    cd apodify
     ```
 3. Create virtual environment using `venv`
     ```sh
@@ -119,6 +119,6 @@ While not mandatory, having a NASA API key allows for increased usage limits. Th
 
 ---
 
-![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/paulinek13/apod-extended/master?style=for-the-badge)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/paulinek13/apod-extended?style=for-the-badge)
-![GitHub repo size](https://img.shields.io/github/repo-size/paulinek13/apod-extended?style=for-the-badge)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/paulinek13/apodify/master?style=for-the-badge)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/paulinek13/apodify?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/paulinek13/apodify?style=for-the-badge)

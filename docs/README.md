@@ -9,7 +9,7 @@ The goal of this project is to enhance APODs ([Astronomy Picture of the Day](htt
 
 By default all data is saved to a local SQLite database. This setup allows you to quickly start using the tool without needing external services. You can perform filtering, searching, and other operations directly within the local environment.
 
-If you prefer to use **[Supabase](https://supabase.com/)** for storing data, you can enable it in the configuration settings. Keep in mind that **[apod-extended](https://github.com/paulinek13/apod-extended)** supports either a local SQLite database or **Supabase** — only one can be active at a time. #review
+If you prefer to use **[Supabase](https://supabase.com/)** for storing data, you can enable it in the configuration settings. Keep in mind that **[apodify](https://github.com/paulinek13/apodify)** supports either a local SQLite database or **Supabase** — only one can be active at a time. #review
 
 # Database
 
@@ -17,15 +17,15 @@ If you prefer to use **[Supabase](https://supabase.com/)** for storing data, you
 
 As this project is focused on enhancing **APODs** specifically for the **neso** web app, **Supabase** is utilized to store additional data related to **APODs**. The process is as follows:
 
-1. **apod-extended** processes data from [NASA's APOD API](https://github.com/nasa/apod-api) and generates or extracts more detailed information for each **APOD** entry.
+1. **apodify** processes data from [NASA's APOD API](https://github.com/nasa/apod-api) and generates or extracts more detailed information for each **APOD** entry.
 2. This enriched data is then uploaded to a specific table within a **Supabase** instance, enabling **neso** to easily retrieve the information via API calls.
 
 ## SQLite
 
-In addition to integrating with **Supabase** for storing and retrieving enhanced **APOD** data, **apod-extended** also supports saving data to a local SQLite database. This feature allows for efficient filtering and searching of **APOD** entries directly within the local environment, without relying on external services.
+In addition to integrating with **Supabase** for storing and retrieving enhanced **APOD** data, **apodify** also supports saving data to a local SQLite database. This feature allows for efficient filtering and searching of **APOD** entries directly within the local environment, without relying on external services.
 
 # Versioning
 
-**apod-extended** follows **[Semantic Versioning](https://semver.org/)** for its versioning system. For each major version, a new local SQLite database will be created, or a new **Supabase** table will need to be set up. This approach is due to the lack of planned database migrations.
+**apodify** follows **[Semantic Versioning](https://semver.org/)** for its versioning system. For each major version, a new local SQLite database will be created, or a new **Supabase** table will need to be set up. This approach is due to the lack of planned database migrations.
 
 Please see [CHANGELOG](CHANGELOG.md) and [VERSIONS](VERSIONS.md) for more details.
