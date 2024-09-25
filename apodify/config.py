@@ -37,9 +37,9 @@ class get:
 
 
 def init():
-    """Load 'config.yml' file and update the configuration settings."""
+    """Load `/apodify/config/settings.yaml` file and update the configuration settings."""
 
-    with open("config.yml", "r") as file:
+    with open("./apodify/config/settings.yaml", "r") as file:
         data = yaml.safe_load(file)
         # todo validate the input
 
