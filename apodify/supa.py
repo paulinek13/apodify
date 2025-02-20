@@ -2,7 +2,7 @@ from typing import List
 from supabase import create_client, Client
 from os import getenv
 
-supabase: Client = create_client(getenv("SUPABASE_URL"), getenv("SUPABASE_KEY"))
+supabase: Client = create_client(getenv("SUPABASE_PROJECT_URL"), getenv("SUPABASE_SERVICE_ROLE"))
 
 
 def supabase_upload_v1(
