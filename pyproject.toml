@@ -1,0 +1,17 @@
+[project]
+name = "apodify"
+version = "0.1.0"
+description = "Enhance APOD entries by adding extra properties for better organization and filtering"
+readme = "README.md"
+authors = [
+    { name = "paulinek13" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+apodify = "apodify:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
