@@ -7,7 +7,9 @@ authors = [
     { name = "paulinek13" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pytest>=8.3.5",
+]
 
 [project.scripts]
 apodify = "apodify:main"
