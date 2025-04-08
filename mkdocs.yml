@@ -1,0 +1,15 @@
+site_name: Apodify Docs
+
+theme:
+  name: "material"
+
+plugins:
+- search
+- mkdocstrings
+
+nav:
+- Home: index.md
+- Reference:
+    - Overview: reference.md
+    - apod_api: reference/apod_api.md
+    - common: reference/common.md
