@@ -1,5 +1,6 @@
 import requests
 from datetime import datetime, date
+from loguru import logger
 from typing import Dict, Union
 
 
@@ -36,9 +37,7 @@ class APODClient:
             datetime.strptime(input_date, "%Y-%m-%d")  # try parsing string date
             return input_date
         except ValueError:
-            raise ValueError(
-                "Invalid date format. Use YYYY-MM-DD or date object."
-            )
+            raise ValueError("Invalid date format. Use YYYY-MM-DD or date object.")
 
     def get_apod(self, date: Union[str, date]) -> Dict:
         """
@@ -53,7 +52,18 @@ class APODClient:
         formatted_date = self._validate_date(date)
         params = {"api_key": self.api_key, "date": formatted_date}
 
+        if self.api_key == "DEMO_KEY":
+            logger.warning("Using demo API key. Limited to 30 requests per hour.")
+
+        logger.info(f"Retrieving APOD for date: {formatted_date} ...")
+
         response = requests.get(self.BASE_URL, params=params)
         response.raise_for_status()
+
+        logger.debug(response.json())
+
+        logger.info(
+            f"Remaining requests: {response.headers.get('X-RateLimit-Remaining')} (X-Ratelimit-Limit: {response.headers.get('X-RateLimit-Limit')})"
+        )
 
         return response.json()
