@@ -58,20 +58,32 @@ class Config:
         >>> print(Config.log_level)
     """
 
+    _is_loaded = False  # track if load_config has been called
+
     api_key = "DEMO_KEY"
     log_level = "INFO"
 
+    def __new__(cls):
+        # Prevent instantiation of the Config class
+        raise TypeError("Config class cannot be instantiated.")
+
     @classmethod
-    def load_config(cls):
+    def _load_config(cls):
         """
         Load configuration from the config files: `config.toml` and `.env`.
         This method is called by `init_apodify` and should not be called directly.
         """
+        if cls._is_loaded:
+            logger.warning("Config has already been loaded. Skipping load.")
+            return
 
         _load_env_file()
-        
+
         if not _should_use_demo_key():
             import os
+
             cls.api_key = os.environ.get("NASA_API_KEY", "").strip()
 
         # TODO: load config from config.toml
+
+        cls._is_loaded = True

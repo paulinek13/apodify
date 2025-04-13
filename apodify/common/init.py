@@ -10,4 +10,4 @@ def init_apodify() -> None:
 
     logger.success("Welcome to Apodify! Initializing...")
 
-    Config.load_config()
+    Config._load_config()
