@@ -1,4 +1,6 @@
+import os
 import requests
+
 from datetime import datetime, date
 from loguru import logger
 from typing import Dict, Union
@@ -11,14 +13,11 @@ class APODClient:
 
     BASE_URL = "https://api.nasa.gov/planetary/apod"
 
-    def __init__(self, api_key: str = "DEMO_KEY"):
+    def __init__(self):
         """
-        Initialize the APOD client with a NASA API key.
-
-        Args:
-            api_key (str): NASA API key used for authentication.
+        Initialize the APOD client.
         """
-        self.api_key = api_key
+        self.api_key = os.environ.get("NASA_API_KEY", "DEMO_KEY")
 
     def _validate_date(self, input_date: Union[str, date]) -> str:
         """
@@ -51,9 +50,6 @@ class APODClient:
         """
         formatted_date = self._validate_date(date)
         params = {"api_key": self.api_key, "date": formatted_date}
-
-        if self.api_key == "DEMO_KEY":
-            logger.warning("Using demo API key. Limited to 30 requests per hour.")
 
         logger.info(f"Retrieving APOD for date: {formatted_date} ...")
 
