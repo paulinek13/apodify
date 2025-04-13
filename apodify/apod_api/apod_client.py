@@ -1,10 +1,10 @@
-import os
 import requests
 
 from datetime import datetime, date
 from loguru import logger
 from typing import Dict, Union
 
+from apodify.common import Config
 
 class APODClient:
     """
@@ -17,7 +17,7 @@ class APODClient:
         """
         Initialize the APOD client.
         """
-        self.api_key = os.environ.get("NASA_API_KEY", "DEMO_KEY")
+        self.api_key = Config.api_key
 
     def _validate_date(self, input_date: Union[str, date]) -> str:
         """
