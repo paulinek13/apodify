@@ -11,3 +11,7 @@ def init_apodify() -> None:
     logger.success("Welcome to Apodify! Initializing...")
 
     Config._load_config()
+
+    if not Config.debug:
+        # TODO: disable debug logging
+        pass

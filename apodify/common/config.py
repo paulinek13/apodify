@@ -1,3 +1,5 @@
+import tomllib
+
 from loguru import logger
 
 from apodify.common import path
@@ -55,13 +57,13 @@ class Config:
 
     Example:
         >>> from apodify.common import Config
-        >>> print(Config.log_level)
+        >>> print(Config.debug)
     """
 
     _is_loaded = False  # track if load_config has been called
 
     api_key = "DEMO_KEY"
-    log_level = "INFO"
+    debug = True
 
     def __new__(cls):
         # Prevent instantiation of the Config class
@@ -84,6 +86,22 @@ class Config:
 
             cls.api_key = os.environ.get("NASA_API_KEY", "").strip()
 
-        # TODO: load config from config.toml
+        config_path = path.HOME_PATH / "config.toml"
+
+        if config_path.exists():
+            try:
+                with open(config_path, "rb") as f:
+                    config_data = tomllib.load(f)
+
+                if "logging" in config_data and "debug" in config_data["logging"]:
+                    cls.debug = config_data["logging"]["debug"]
+                else:
+                    logger.warning(
+                        "No setting for 'logging.debug' found in config.toml. Using default value."
+                    )
+            except Exception as e:
+                logger.error(f"Error loading config.toml: {e}")
+        else:
+            logger.warning(f"Config file not found at {config_path}")
 
         cls._is_loaded = True
