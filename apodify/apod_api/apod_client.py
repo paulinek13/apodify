@@ -5,6 +5,8 @@ from loguru import logger
 from typing import Dict, Union
 
 from apodify.common import Config
+from apodify.internal import APODCache
+
 
 class APODClient:
     """
@@ -17,6 +19,7 @@ class APODClient:
         """
         Initialize the APOD client.
         """
+        self._cache = APODCache()
         self.api_key = Config.api_key
 
     def _validate_date(self, input_date: Union[str, date]) -> str:
@@ -49,17 +52,28 @@ class APODClient:
             Dictionary containing APOD details.
         """
         formatted_date = self._validate_date(date)
+
+        if Config.use_cache:
+            cached_data = self._cache.get_from_cache(formatted_date)
+            if cached_data:
+                logger.info(f"APOD for {formatted_date} retrieved from cache.")
+                return cached_data
+            else:
+                logger.info(f"No cached APOD found for {formatted_date}.")
+
         params = {"api_key": self.api_key, "date": formatted_date}
 
-        logger.info(f"Retrieving APOD for date: {formatted_date} ...")
+        logger.info(f"Fetching APOD for {formatted_date} from NASA's APOD API...")
 
         response = requests.get(self.BASE_URL, params=params)
         response.raise_for_status()
-
-        logger.debug(response.json())
-
         logger.info(
-            f"Remaining requests: {response.headers.get('X-RateLimit-Remaining')} (X-Ratelimit-Limit: {response.headers.get('X-RateLimit-Limit')})"
+            f"Sucessfully fetched. Remaining requests: {response.headers.get('X-RateLimit-Remaining')}"
         )
 
-        return response.json()
+        apod_data = response.json()
+        logger.debug(apod_data)
+
+        self._cache.save_to_cache(formatted_date, apod_data)
+
+        return apod_data

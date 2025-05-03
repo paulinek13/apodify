@@ -64,6 +64,7 @@ class Config:
 
     api_key = "DEMO_KEY"
     debug = True
+    use_cache = True
 
     def __new__(cls):
         # Prevent instantiation of the Config class
@@ -99,6 +100,14 @@ class Config:
                     logger.warning(
                         "No setting for 'logging.debug' found in config.toml. Using default value."
                     )
+
+                if "cache" in config_data and "use_cache" in config_data["cache"]:
+                    cls.use_cache = config_data["cache"]["use_cache"]
+                else:
+                    logger.warning(
+                        "No setting for 'cache.use_cache' found in config.toml. Using default value."
+                    )
+
             except Exception as e:
                 logger.error(f"Error loading config.toml: {e}")
         else:
