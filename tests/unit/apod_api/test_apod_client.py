@@ -7,7 +7,7 @@ from apodify.apod_api import APODClient
 
 @pytest.fixture
 def api_client():
-    return APODClient("DEMO_KEY")
+    return APODClient()
 
 
 def test_validate_date(api_client):
