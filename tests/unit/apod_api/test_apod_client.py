@@ -11,6 +11,8 @@ def api_client():
 
 
 def test_validate_date(api_client):
+    """Test the date validation method"""
+
     string_value = "2025-01-01"
     assert api_client._validate_date(string_value) == string_value
 
@@ -22,6 +24,7 @@ def test_validate_date(api_client):
 
 
 @patch("requests.get")
+@patch("apodify.common.Config.use_cache", False)
 def test_get_apod(mock_requests_get, api_client):
     """Test retrieving APOD for a specific date"""
 
