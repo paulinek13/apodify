@@ -37,7 +37,7 @@ def test_get_apod(mock_requests_get, api_client):
     mock_response.raise_for_status = Mock()
     mock_requests_get.return_value = mock_response
 
-    result = api_client.get_apod("2000-01-01")
+    result = api_client.get.date("2000-01-01")
 
     mock_requests_get.assert_called_once_with(
         APODClient.BASE_URL, params={"api_key": "DEMO_KEY", "date": "2000-01-01"}

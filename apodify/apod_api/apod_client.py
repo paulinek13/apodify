@@ -8,6 +8,47 @@ from apodify.common import Config
 from apodify.internal import APODCache
 
 
+class APODQueryBuilder:
+    """
+    Builder class for constructing APOD queries.
+
+    This helper class simplifies building optimized queries for the APOD API.
+    It supports fetching APODs for specific dates, date ranges, or random entries,
+    and includes caching to reduce API calls and enhance performance.
+    It is intended for use with the APODClient class.
+    """
+
+    def __init__(self, client):
+        """
+        Initialize the query builder.
+
+        Args:
+            client (APODClient): Reference to the parent client.
+        """
+        self._client = client
+
+    def date(self, query_date: Union[str, date]) -> Dict:
+        """
+        Get APOD for a specific date.
+
+        Args:
+            query_date (Union[str, date]): Date of the APOD entry.
+
+        Returns:
+            Dictionary containing APOD details for the specified date.
+        """
+        return self._client._get_apod(query_date)
+
+    def today(self) -> Dict:
+        """
+        Get APOD from today.
+
+        Returns:
+            Dictionary containing APOD details for today's date.
+        """
+        return self._client._get_apod(date.today())
+
+
 class APODClient:
     """
     A client for interacting with [NASA's Astronomy Picture of the Day (APOD) API](https://api.nasa.gov/).
@@ -22,6 +63,8 @@ class APODClient:
         self._cache = APODCache()
         self.api_key = Config.api_key
 
+        self.get = APODQueryBuilder(self)
+
     def _validate_date(self, input_date: Union[str, date]) -> str:
         """
         Validate and convert input date to YYYY-MM-DD format.
@@ -32,7 +75,7 @@ class APODClient:
         Returns:
             Formatted date string (YYYY-MM-DD).
         """
-        if isinstance(input_date, (date)):
+        if isinstance(input_date, date):
             return input_date.strftime("%Y-%m-%d")
 
         try:
@@ -41,7 +84,7 @@ class APODClient:
         except ValueError:
             raise ValueError("Invalid date format. Use YYYY-MM-DD or date object.")
 
-    def get_apod(self, date: Union[str, date]) -> Dict:
+    def _get_apod(self, date: Union[str, date]) -> Dict:
         """
         Retrieve APOD data for a specific date.
 
@@ -68,7 +111,7 @@ class APODClient:
         response = requests.get(self.BASE_URL, params=params)
         response.raise_for_status()
         logger.info(
-            f"Sucessfully fetched. Remaining requests: {response.headers.get('X-RateLimit-Remaining')}"
+            f"Successfully fetched. Remaining requests: {response.headers.get('X-RateLimit-Remaining')}"
         )
 
         apod_data = response.json()
