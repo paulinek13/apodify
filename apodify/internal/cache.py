@@ -21,13 +21,13 @@ class APODCache:
 
     def get_cache_path(self, request_date: Union[str, date]) -> pathlib.Path:
         """
-        Get the path to the cache file for the specified date.
+        Get the path to the directory where the files for the specified date are cached.
 
         Args:
             request_date (Union[str, date]): Date for the APOD entry.
 
         Returns:
-            pathlib.Path: Path to the cache file.
+            pathlib.Path: Path to the cache directory for the specified date.
         """
         if isinstance(request_date, str):
             date_obj = datetime.strptime(request_date, "%Y-%m-%d").date()
@@ -40,7 +40,7 @@ class APODCache:
             / f"{date_obj.month:02d}"
             / f"{date_obj.day:02d}"
         )
-        return cache_dir / "apod.json"
+        return cache_dir
 
     def get_from_cache(self, request_date: Union[str, date]) -> Optional[Dict]:
         """
@@ -82,7 +82,7 @@ class APODCache:
         if not self.enabled:
             return False
 
-        cache_path = self.get_cache_path(request_date)
+        cache_path = self.get_cache_path(request_date) / "apod.json"
 
         try:
             cache_path.parent.mkdir(parents=True, exist_ok=True)
